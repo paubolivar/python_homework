@@ -1,14 +1,12 @@
 '''Project name: vcf_to_sfs
 
 
-This project analyses diversity data. It will take genetic variant information per site from may individuals 
-and process it to get summarized diversity information. It is useful to get diversity estimates from a variant file
-in the forms of population genetic statistics such as pi, theta_w and sfs. These information can be filtered for 
-different purposes in terms of number of alleles samples, class of mutation, genomic region.
+This project gets an sfs from a vcf file according to an interseccion with a bed file. These information can be filtered for 
+different purposes in terms of number of alleles samples, number of reads for genotyped individuals, class of mutation, genomic region.
 
 input: 
 1.  vcf file
-2.	BED files to filter for example repetitive regions.
+2.  BED files to filter for example repetitive regions.
 
 input by user:
 1. num_reads: min number of reads an individual need to have in order to be sampled.
@@ -17,8 +15,7 @@ input by user:
 output1: 
 1. report/plots.
 
-
-This project has three main classes: Sitefrequency, Collect_SNPs, Sfs.
+This project has three main classes: Sitefrequency, Collect_SNPs, SFS.
 
 
 '''
@@ -91,6 +88,7 @@ class Collect_SNPs(object):
 	
 
     def get_SNPS(self, vcf_path=vcf_path, bed_path=bed_path):
+	'''This method gets the actual collection of snps, accordyng to the possitions in a bed file.'''
         self.vcf_path = vcf_path
         self.bed_path = bed_path
         print "Analyzing vcf file %s" % self.vcf_path
@@ -112,27 +110,29 @@ class Collect_SNPs(object):
         	return self.coll_snps
 
     def get_filter(self, mutcat):
+	'''This method makes a subset of a current collection accoryng to the attribut "mutcat" of each site int he collection'''
     	self.coll_snps = [site for site in self.coll_snps if site.mutcat == mutcat]
     	return self.coll_snps
 
     def get_SFS(self):
-		#n_all_sample = 24
+	'''This method gets the sfs from the derived and total counts in the collection'''
+	#n_all_sample = 24
 		sfs_list = [0] * (n_all_sample+1)
 		for site in  self.coll_snps: #here we iterate over the sites in the collection of snps, where can access the site's attributes.
-			#print site.num_alleles, n_all_sample
-			if site.num_alleles<=n_all_sample:
-			    #raise Exception
-			    continue
-			list_alleles = ([1]*site.derived_count) + ([0]* (site.num_alleles-site.derived_count))
-			sample = random.sample(list_alleles,n_all_sample)
-			derived_count_sample =sample.count(1)
-			#print sample
-			#print derived_count_sample
-			sfs_list[derived_count_sample]+=1
-		return sfs_list
+		#print site.num_alleles, n_all_sample
+		if site.num_alleles<=n_all_sample:
+		    #raise Exception
+		    continue
+		list_alleles = ([1]*site.derived_count) + ([0]* (site.num_alleles-site.derived_count))
+		sample = random.sample(list_alleles,n_all_sample)
+		derived_count_sample =sample.count(1)
+		#print sample
+		#print derived_count_sample
+		sfs_list[derived_count_sample]+=1
+	return sfs_list
 
 class SFS(object):
-	'''This class takes as input a collection of SNPs and outputs plot'''
+	'''This class takes as input a SFS object and outputs plot'''
 	def __init__(self, sfs, pat_out="sfs.eps"):
 		self.sfs = sfs
 		self.pat_out = pat_out
