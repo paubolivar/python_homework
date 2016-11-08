@@ -21,7 +21,6 @@ This project has three main classes: Sitefrequency, Collect_SNPs, SFS.
 '''
 
 import os
-import re
 import random
 import tabix
 import pandas as pd
