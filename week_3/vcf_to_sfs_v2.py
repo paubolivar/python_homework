@@ -20,7 +20,7 @@ This project has three main classes: Sitefrequency, Collect_SNPs, Sfs.
 
 Example files in the example directory
 
-usage example: 
+usage example: python final_proj.py dummy_recoded.vcf.gz dummy.bed 8 1
 '''
 
 import os
