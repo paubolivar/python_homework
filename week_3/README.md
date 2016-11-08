@@ -16,7 +16,8 @@ output1:
 Example files in the example directory
 
 usage example: 
-#input parameters specified (by argv): script, vcf_path, bed_path, n_all_sample, num_reads = argv
+input parameters specified (by argv): script, vcf_path, bed_path, n_all_sample, num_reads = argv
+
 python final_proj.py dummy_recoded.vcf.gz dummy.bed 8 1
 
 '''
