@@ -10,9 +10,6 @@ output path: sfs_allsites.png, sfs_sw.png.
 from sys import argv
 from vcf_to_sfs_v2 import Collect_SNPs, Sitefrequency, SFS
 
-#Input by user:
-vcf_path="dummy_recoded.vcf.gz"
-bed_path="dummy.bed"
 #input parameters specified (by argv)
 script, vcf_path, bed_path, n_all_sample, num_reads = argv
 

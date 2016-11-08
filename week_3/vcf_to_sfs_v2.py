@@ -24,6 +24,7 @@ usage example: python final_proj.py dummy_recoded.vcf.gz dummy.bed 8 1
 '''
 
 import os
+import random
 import tabix
 import pandas as pd
 import numpy as np
